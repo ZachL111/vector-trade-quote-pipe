@@ -1,0 +1,73 @@
+{
+  "repo": "vector-trade-quote-pipe",
+  "language": "Zig",
+  "category": "Trading systems",
+  "goal": "Design a Zig verification harness for quote systems, covering storage recovery, log and snapshot fixtures, and failure-oriented tests.",
+  "review_model": {
+    "terms": [
+      "spread pressure",
+      "fill risk",
+      "portfolio drift",
+      "quote width"
+    ],
+    "lanes": [
+      "ship",
+      "watch",
+      "hold"
+    ],
+    "score": "signal * 2 + slack + confidence - drag * 3",
+    "purpose": "surface the domain-specific cases that need the most careful review"
+  },
+  "cases": [
+    {
+      "name": "baseline",
+      "focus": "spread pressure",
+      "signal": 40,
+      "slack": 39,
+      "drag": 22,
+      "confidence": 61,
+      "score": 114,
+      "lane": "watch"
+    },
+    {
+      "name": "stress",
+      "focus": "fill risk",
+      "signal": 78,
+      "slack": 43,
+      "drag": 15,
+      "confidence": 86,
+      "score": 240,
+      "lane": "ship"
+    },
+    {
+      "name": "edge",
+      "focus": "portfolio drift",
+      "signal": 70,
+      "slack": 30,
+      "drag": 18,
+      "confidence": 55,
+      "score": 171,
+      "lane": "ship"
+    },
+    {
+      "name": "recovery",
+      "focus": "quote width",
+      "signal": 52,
+      "slack": 53,
+      "drag": 11,
+      "confidence": 72,
+      "score": 196,
+      "lane": "ship"
+    },
+    {
+      "name": "stale",
+      "focus": "spread pressure",
+      "signal": 52,
+      "slack": 35,
+      "drag": 8,
+      "confidence": 51,
+      "score": 166,
+      "lane": "ship"
+    }
+  ]
+}

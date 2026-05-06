@@ -1,67 +1,40 @@
 # vector-trade-quote-pipe
 
-`vector-trade-quote-pipe` is a focused Zig codebase around design a Zig verification harness for quote systems, covering storage recovery, log and snapshot fixtures, and failure-oriented tests. It is meant to be easy to inspect, run, and extend without a hosted service.
+`vector-trade-quote-pipe` explores trading systems with a small Zig codebase and local fixtures. The technical goal is to design a Zig verification harness for quote systems, covering storage recovery, log and snapshot fixtures, and failure-oriented tests.
 
-## Vector Trade Quote Pipe Walkthrough
+## Use Case
 
-I would read the project from the outside in: command, fixture, model, then roadmap. That keeps the trading systems idea grounded in files that can be checked locally.
+This is intentionally local and self-contained so it can be inspected without credentials, services, or seeded history.
 
-## Capabilities
+## Vector Trade Quote Pipe Review Notes
 
-- Includes extended examples for fills, including `surge` and `degraded`.
-- Documents portfolio pressure tradeoffs in `docs/operations.md`.
-- Runs locally with a single verification command and no external credentials.
-- Stores project constants and verification metadata in `metadata/project.json`.
-- Adds a repository audit script that checks structure before running the language verifier.
+For a quick review, compare `fill risk` with `spread pressure` before reading the middle cases.
 
-## Reason For The Project
+## Highlights
 
-This project keeps the domain idea close to the tests. That makes it useful as a reference implementation, a small experiment, or a starting point for a more specialized tool.
+- `fixtures/domain_review.csv` adds cases for spread pressure and fill risk.
+- `metadata/domain-review.json` records the same cases in structured form.
+- `config/review-profile.json` captures the read order and the two review questions.
+- `examples/vector-trade-quote-walkthrough.md` walks through the case spread.
+- The Zig code includes a review path for `fill risk` and `spread pressure`.
+- `docs/field-notes.md` explains the strongest and weakest cases.
 
-## Where Things Live
+## Code Layout
 
-- `src`: primary implementation
-- `fixtures`: compact golden scenarios
-- `examples`: expanded scenario set
-- `metadata`: project constants and verification metadata
-- `docs`: operations and extension notes
-- `scripts`: local verification and audit commands
+The implementation keeps the scoring rule plain: reward signal and confidence, preserve slack, penalize drag, then classify the result into a review lane.
 
-## How It Is Put Together
+The Zig implementation avoids hidden state so fixture changes are easy to reason about.
 
-The project is organized around a compact model rather than a large framework. Inputs are scored, classified, and checked against golden fixtures. The constants live in code and are mirrored in metadata so documentation drift is easy to catch. The Zig version uses compile-time constants and native test blocks for fast local checks.
-
-## Command Examples
+## Run The Check
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/verify.ps1
 ```
 
-This runs the language-level build or test path against the compact fixture set.
+## Regression Path
 
-## Data Notes
+That command is also the regression path. It verifies the domain cases and catches mismatches between the CSV, metadata, and code.
 
-`surge` is the first example I would inspect because it lands on the `accept` path with a score of 182. The broader file also keeps `degraded` at -71 and `surge` at 182, which gives the model a useful low-to-high spread.
+## Future Work
 
-## Check The Work
-
-```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File scripts/audit.ps1
-```
-
-The audit command checks repository structure and README constraints before it delegates to the verifier.
-
-## Tradeoffs
-
-This code is local-first. It makes no claim about deployed usage and avoids credentials, hosted state, and environment-specific setup.
-
-## Possible Extensions
-
-- Add a comparison mode that shows how decisions change when one signal is adjusted.
-- Add a loader for `examples/extended_cases.csv` and promote selected cases into the language test suite.
-- Add a short report command that prints the score breakdown for a single scenario.
-- Add one more trading systems fixture that focuses on a malformed or borderline input.
-
-## Getting It Running
-
-Clone the repository, enter the directory, and run the verifier. No database server, cloud account, or token is required.
+The repository is intentionally scoped to local checks. I would expand it by adding adversarial fixtures before adding features.
