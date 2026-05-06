@@ -67,3 +67,7 @@ if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/check-vector-trade-quote-golden.ps1
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts/check-vector_trade_quote_pipe-casebook.ps1
+if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
