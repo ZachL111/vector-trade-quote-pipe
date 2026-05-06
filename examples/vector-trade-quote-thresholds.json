@@ -1,0 +1,17 @@
+{
+  "repo": "vector-trade-quote-pipe",
+  "thresholds": {
+    "signal": 3,
+    "slack": 1,
+    "confidence": 2,
+    "drag": 4,
+    "ship": 152,
+    "watch": 112
+  },
+  "terms": [
+    "spread pressure",
+    "fill risk",
+    "portfolio drift",
+    "quote width"
+  ]
+}
